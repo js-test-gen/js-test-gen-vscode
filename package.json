@@ -1,36 +1,50 @@
 {
-    "name": "js-test-gen-vscode",
-    "displayName": "js-test-gen-vscode",
-    "description": "TODO",
-    "version": "0.0.1",
-    "publisher": "TODO",
-    "engines": {
-        "vscode": "^1.20.0"
-    },
-    "categories": [
-        "Other"
+  "name": "js-test-gen-vscode",
+  "displayName": "js-test-gen-vscode",
+  "description": "TODO",
+  "version": "0.0.1",
+  "publisher": "TODO",
+  "engines": {
+    "vscode": "^1.20.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onCommand:extension.generateTestTemplate"],
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.generateTestTemplate",
+        "title": "Generate Test Template"
+      }
     ],
-    "activationEvents": [
-        "onCommand:extension.sayHello"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.sayHello",
-                "title": "Hello World"
-            }
-        ]
-    },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "eslint": "^4.11.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+    "configuration": {
+      "type": "object",
+      "title": "JS Test Gen Configuration",
+      "properties": {
+        "jstestgen.testDirName": {
+          "type": "string",
+          "default": "",
+          "description":
+            "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
+        },
+        "jstestgen.testSufix": {
+          "type": "string",
+          "default": "-test",
+          "description":
+            "Appends a string to your test file E.G: 'myfile-test.js"
+        }
+      }
     }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6",
+    "eslint": "^4.11.0",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  }
 }
