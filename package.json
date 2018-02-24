@@ -8,13 +8,20 @@
     "vscode": "^1.20.0"
   },
   "categories": ["Other"],
-  "activationEvents": ["onCommand:extension.generateTestTemplate"],
+  "activationEvents": [
+    "onCommand:extension.generateTestTemplate",
+    "onCommand:extension.generateTest"
+  ],
   "main": "./extension",
   "contributes": {
     "commands": [
       {
         "command": "extension.generateTestTemplate",
         "title": "Generate Test Template"
+      },
+      {
+        "command": "extension.generateTest",
+        "title": "Generate Test"
       }
     ],
     "configuration": {
@@ -46,5 +53,8 @@
     "eslint": "^4.11.0",
     "@types/node": "^7.0.43",
     "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "clipboardy": "^1.2.3"
   }
 }

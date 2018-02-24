@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
 const { generateTestTemplate, generateTest } = require("js-test-gen");
+const clipboardy = require("clipboardy");
 const fs = require("fs");
 
 /**
@@ -24,28 +25,22 @@ const noTestFromSelectionWarning = "Could not create test from selection";
 // Template generation related messages
 const templateGenSuccess = "Test Template Generated";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 function activate(context) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log(
-    'Congratulations, your extension "js-test-gen-vscode" is now active!'
-  );
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with  registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
+  let testFromFile = vscode.commands.registerCommand(
     "extension.generateTestTemplate",
     generateTestFileTemplate
   );
 
-  context.subscriptions.push(disposable);
+  let testFromSelection = vscode.commands.registerCommand(
+    "extension.generateTest",
+    generateTestFromSelection
+  );
+
+  context.subscriptions.push(testFromFile);
+  context.subscriptions.push(testFromSelection);
 }
 exports.activate = activate;
 
-// this method is called when your extension is deactivated
 function deactivate() {}
 exports.deactivate = deactivate;
 
@@ -113,4 +108,24 @@ const generateTestFileTemplate = () => {
   } else {
     return vscode.window.showWarningMessage(noActiveFileWarning);
   }
+};
+
+const generateTestFromSelection = () => {
+  let editor = vscode.window.activeTextEditor;
+  if (editor) {
+    const selection = editor.selection;
+    const text = editor.document.getText(selection);
+    if (selection) {
+      const template = generateTest(text);
+      if (template) {
+        // Check if their is actually a template, it could be an empty string
+        clipboardy.writeSync(template);
+        return vscode.window.showInformationMessage(selectionSuccess);
+      }
+      return vscode.window.showWarningMessage(noTestFromSelectionWarning);
+    } else {
+      return vscode.window.showWarningMessage(noSelectionWarning);
+    }
+  }
+  return vscode.window.showWarningMessage(noActiveFileWarning);
 };
