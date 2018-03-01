@@ -1,13 +1,15 @@
 {
   "name": "js-test-gen-vscode",
   "displayName": "js-test-gen-vscode",
-  "description": "TODO",
+  "description": "Generate tests for your js code",
   "version": "0.0.1",
-  "publisher": "TODO",
+  "publisher": "jsTestGen",
   "engines": {
     "vscode": "^1.20.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "activationEvents": [
     "onCommand:extension.generateTestTemplate",
     "onCommand:extension.generateTest"
@@ -31,14 +33,22 @@
         "jstestgen.testDirName": {
           "type": "string",
           "default": "",
-          "description":
-            "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
+          "description": "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
         },
         "jstestgen.testSufix": {
           "type": "string",
-          "default": "-test",
-          "description":
-            "Appends a string to your test file E.G: 'myfile-test.js"
+          "default": ".test",
+          "description": "Appends a string to your test file E.G: 'myfile-test.js"
+        },
+        "jstestgen.typeSystem": {
+          "type": "string",
+          "enum": [
+            "Flow",
+            "Typescript",
+            "None"
+          ],
+          "default": "None",
+          "description": "Specify if the code the tests are being generated for contain a type system I.E flow/tyescript"
         }
       }
     }

@@ -24,31 +24,28 @@ const noTestFromSelectionWarning = "Could not create test from selection";
 
 // Template generation related messages
 const templateGenSuccess = "Test Template Generated";
+const templateGenFailed = "Could not create test template from this file";
 
-function activate(context) {
-  let testFromFile = vscode.commands.registerCommand(
-    "extension.generateTestTemplate",
-    generateTestFileTemplate
-  );
-
-  let testFromSelection = vscode.commands.registerCommand(
-    "extension.generateTest",
-    generateTestFromSelection
-  );
-
-  context.subscriptions.push(testFromFile);
-  context.subscriptions.push(testFromSelection);
-}
-exports.activate = activate;
-
-function deactivate() {}
-exports.deactivate = deactivate;
-
-//function generateTest() {}
+/**
+ * File related utils
+ */
+// path up to just before fileName
 const getFilePath = (path = "") => path.slice(0, path.lastIndexOf("/"));
-const getFileName = (path = "") => {
-  return path.slice(path.lastIndexOf("/"), path.length).replace(/\.(js)$/, "");
-};
+// fileName without extension
+const getFileName = (path = "") =>
+  path
+    .slice(path.lastIndexOf("/") + 1, path.length)
+    .replace(/\.(js|ts|jsx|tsx)$/, "");
+
+// no dirName specified ? import code from "./" : else "../"
+const determinePath = (dirName = "", fileName = "") =>
+  dirName ? `../${fileName}` : `./${fileName}`;
+
+// No dirName specified ? write to current dir : write to specified dir
+const determineSaveLoc = (dirName = "", filePath = "", fileName = "") =>
+  dirName
+    ? `${filePath}/${dirName}/${fileName}` // save to user specified loc
+    : `${filePath}/${fileName}`; // save to current dir
 
 const areExistingTestFile = path => (fs.existsSync(path) ? true : false);
 
@@ -75,30 +72,72 @@ const writeTemplate = (saveLocation, template) => {
   });
 };
 
+/**
+ * User setting
+ */
+
+const determineTypeSystem = (typeSystem = "") => {
+  if (typeSystem === "None") {
+    return "";
+  }
+  return typeSystem.toUpperCase();
+};
+
+function activate(context) {
+  let testFromFile = vscode.commands.registerCommand(
+    "extension.generateTestTemplate",
+    generateTestFileTemplate
+  );
+
+  let testFromSelection = vscode.commands.registerCommand(
+    "extension.generateTest",
+    generateTestFromSelection
+  );
+
+  context.subscriptions.push(testFromFile);
+  context.subscriptions.push(testFromSelection);
+}
+exports.activate = activate;
+
+function deactivate() {}
+exports.deactivate = deactivate;
+
 const generateTestFileTemplate = () => {
   let editor = vscode.window.activeTextEditor;
   if (editor) {
     let doc = editor.document;
+    // user settings
+    const {
+      testDirName,
+      testSufix,
+      typeSystem
+    } = vscode.workspace.getConfiguration("jstestgen");
+    // file info: Name, path
     const srcFileName = getFileName(doc.fileName);
-    const testFilePath = getFilePath(doc.fileName);
-    const { testDirName, testSufix } = vscode.workspace.getConfiguration(
-      "jstestgen"
-    );
+    const filePath = getFilePath(doc.fileName);
+    // generated test info: testFileName, saveLocation for test
     const testFileName = `${srcFileName}${testSufix}.js`; // Add the suffix
-    const saveLocation = testDirName
-      ? `${testFilePath}/${testDirName}/${testFileName}` // save to user specified loc
-      : `${testFilePath}/${testFileName}`; // save to current dir
+    const saveLocation = determineSaveLoc(testDirName, filePath, testFileName);
+
+    // Do not overwrite users current test files !!!!
     if (areExistingTestFile(saveLocation)) {
       return vscode.window.showErrorMessage(pathExistsWarning);
     } else {
+      // This is the test template
       const template = generateTestTemplate({
         contents: doc.getText(),
         srcFileName,
-        importFromPath: testDirName ? `../${srcFileName}` : `./${srcFileName}` // important for import
+        importFromPath: determinePath(testDirName, srcFileName), // important for import
+        typeSystem: determineTypeSystem(typeSystem)
       });
+      // possibility template could be an empty string
+      if (!template) {
+        return vscode.window.showErrorMessage(templateGenFailed);
+      }
+      // check and write to user defined folder if it exists
       if (testDirName) {
         // check if able to write to disk
-        if (!ensureDirectoryExistence(`${testFilePath}/${testDirName}`)) {
+        if (!ensureDirectoryExistence(`${filePath}/${testDirName}`)) {
           return vscode.window.showErrorMessage(failedToCreateFolderWarning);
         }
       }
@@ -115,10 +154,12 @@ const generateTestFromSelection = () => {
   if (editor) {
     const selection = editor.selection;
     const text = editor.document.getText(selection);
-    if (selection) {
-      const template = generateTest(text);
+    if (text) {
+      const { typeSystem } = vscode.workspace.getConfiguration("jstestgen");
+      const template = generateTest(text, determineTypeSystem(typeSystem));
+
+      // Check if their is actually a template, it could be an empty string
       if (template) {
-        // Check if their is actually a template, it could be an empty string
         clipboardy.writeSync(template);
         return vscode.window.showInformationMessage(selectionSuccess);
       }
