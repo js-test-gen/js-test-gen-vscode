@@ -1,93 +1,94 @@
 {
-  "name": "js-test-gen-vscode",
-  "displayName": "js-test-gen-vscode",
-  "description": "Generate tests for your js code",
-  "version": "0.0.1",
-  "publisher": "jsTestGen",
-  "engines": {
-    "vscode": "^1.20.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:jsTestGen.generateTestTemplate",
-    "onCommand:jsTestGen.generateTest"
-  ],
-  "main": "./lib/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "jsTestGen.generateTestTemplate",
-        "title": "Generate Test Template"
-      },
-      {
-        "command": "jsTestGen.generateTest",
-        "title": "Generate Test From Selection"
-      }
+    "name": "js-test-gen-vscode",
+    "displayName": "js-test-gen-vscode",
+    "description": "Js-test-gen-vscode generates test templates from your default/named exports.",
+    "version": "0.3.0",
+    "publisher": "jsTestGen",
+    "engines": {
+        "vscode": "^1.20.0"
+    },
+    "repository": "https://github.com/js-test-gen/js-test-gen-vscode",
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "jsTestGen.generateTestTemplate",
-        "key": "ctrl+alt+g"
-      },
-      {
-        "command": "jsTestGen.generateTest",
-        "key": "ctrl+alt+s"
-      }
+    "activationEvents": [
+        "onCommand:jsTestGen.generateTestTemplate",
+        "onCommand:jsTestGen.generateTest"
     ],
-    "configuration": {
-      "type": "object",
-      "title": "JS Test Gen Configuration",
-      "properties": {
-        "jstestgen.testDirName": {
-          "type": "string",
-          "default": "",
-          "description": "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
-        },
-        "jstestgen.testSufix": {
-          "type": "string",
-          "default": ".test",
-          "description": "Appends a string to your test file E.G: 'myfile-test.js"
-        },
-        "jstestgen.typeSystem": {
-          "type": "string",
-          "enum": [
-            "Flow",
-            "Typescript",
-            "None"
-          ],
-          "default": "None",
-          "description": "Specify if the code the tests are being generated for contain a type system I.E flow/tyescript"
+    "main": "./lib/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "jsTestGen.generateTestTemplate",
+                "title": "Generate Test Template"
+            },
+            {
+                "command": "jsTestGen.generateTest",
+                "title": "Generate Test From Selection"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "jsTestGen.generateTestTemplate",
+                "key": "ctrl+alt+g"
+            },
+            {
+                "command": "jsTestGen.generateTest",
+                "key": "ctrl+alt+s"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "JS Test Gen Configuration",
+            "properties": {
+                "jstestgen.testDirName": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
+                },
+                "jstestgen.testSufix": {
+                    "type": "string",
+                    "default": ".test",
+                    "description": "Appends a string to your test file E.G: 'myfile-test.js"
+                },
+                "jstestgen.typeSystem": {
+                    "type": "string",
+                    "enum": [
+                        "Flow",
+                        "Typescript",
+                        "None"
+                    ],
+                    "default": "None",
+                    "description": "Specify if the code the tests are being generated for contain a type system I.E flow/tyescript"
+                }
+            }
         }
-      }
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test",
+        "precommit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint",
+            "prettier-eslint --write",
+            "git add"
+        ]
+    },
+    "devDependencies": {
+        "eslint": "^4.11.0",
+        "husky": "^0.14.3",
+        "lint-staged": "^7.0.0",
+        "prettier-eslint": "^8.8.1",
+        "prettier-eslint-cli": "^4.7.1",
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "clipboardy": "^1.2.3",
+        "js-test-gen": "^1.0.0"
     }
-  },
-  "scripts": {
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint",
-      "prettier-eslint --write",
-      "git add"
-    ]
-  },
-  "devDependencies": {
-    "eslint": "^4.11.0",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.0.0",
-    "prettier-eslint": "^8.8.1",
-    "prettier-eslint-cli": "^4.7.1",
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6",
-    "@types/node": "^7.0.43",
-    "@types/mocha": "^2.2.42"
-  },
-  "dependencies": {
-    "clipboardy": "^1.2.3",
-    "js-test-gen": "^1.0.0"
-  }
 }
