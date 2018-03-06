@@ -11,19 +11,29 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.generateTestTemplate",
-    "onCommand:extension.generateTest"
+    "onCommand:jsTestGen.generateTestTemplate",
+    "onCommand:jsTestGen.generateTest"
   ],
-  "main": "./extension",
+  "main": "./lib/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.generateTestTemplate",
+        "command": "jsTestGen.generateTestTemplate",
         "title": "Generate Test Template"
       },
       {
-        "command": "extension.generateTest",
-        "title": "Generate Test"
+        "command": "jsTestGen.generateTest",
+        "title": "Generate Test From Selection"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "jsTestGen.generateTestTemplate",
+        "key": "ctrl+alt+g"
+      },
+      {
+        "command": "jsTestGen.generateTest",
+        "key": "ctrl+alt+s"
       }
     ],
     "configuration": {
@@ -55,7 +65,8 @@
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -69,6 +80,7 @@
     "eslint": "^4.11.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
+    "jest": "^22.4.2",
     "prettier-eslint": "^8.8.1",
     "prettier-eslint-cli": "^4.7.1",
     "typescript": "^2.6.1",
