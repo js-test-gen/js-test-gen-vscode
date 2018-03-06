@@ -1,65 +1,39 @@
 # [![js-test-gen](media/jsTestGen.png)](https://js-test-gen.github.io)
 
-This is the README for your extension "js-test-gen-vscode". After writing up a brief description, we recommend including the following sections.
+js-test-gen-vscode generates test templates from your default/named exports.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Generate Test templates
 
-For example if there is an image subfolder under your extension project workspace:
+Creates a new test template file, for all your default/named exports
 
-\!\[feature X\]\(images/feature-x.png\)
+[![js-test-gen](media/jstestGenVs.gif)]()
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### Generate Test from your selections
 
-## Requirements
+Creates a unit test template and copies it to the keyboard, from your default/named exports selection
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+[![js-test-gen](media/selectionTestGenVs.gif)]()
+
+## Installation
+
+You can install it from the CLI
+
+`ext install prettier-vscode`
+
+Or you can install from Settings view by searching for `js-test-gen-atom`.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+| property      | type                 | default   | description                                                                                                                      |
+| ------------- | -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `testDirName` | `string`             | `""`      | Set the directory name for where the test template will be saved to. If not set, the test will be saved to the current directory |
+| `testSufix`   | `string`             | `".test"` | Appends a string to your test file E.G: 'myfile.test.js'                                                                         |
+| `typeSystem`  | `Flow or typescript` | `""`      | "Specify if the code the tests are being generated for contain a type system I.E flow/tyescript"                                 |
 
-For example:
+## Key bindings
 
-This extension contributes the following settings:
+* `jsTestGen.generateTestTemplate` default `ctrl-alt-g` Generates a new test template file for all your named/default exports
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+* `jsTestGen.generateTest` default: `ctrl-alt-s`, Generates a unit test template based on your selection
