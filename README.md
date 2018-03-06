@@ -1,4 +1,4 @@
-# js-test-gen-vscode README
+# [![js-test-gen](media/jsTestGen.png)](https://js-test-gen.github.io)
 
 This is the README for your extension "js-test-gen-vscode". After writing up a brief description, we recommend including the following sections.
 
@@ -47,11 +47,11 @@ Fixed issue #.
 
 Added features X, Y, and Z.
 
------------------------------------------------------------------------------------------------------------
+---
 
 ## Working with Markdown
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
 
 * Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
 * Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
