@@ -2,15 +2,19 @@
     "name": "js-test-gen-vscode",
     "displayName": "js-test-gen-vscode",
     "description": "Js-test-gen-vscode generates test templates from your default/named exports.",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "publisher": "jsTestGen",
     "engines": {
         "vscode": "^1.20.0"
     },
-    "repository": "https://github.com/js-test-gen/js-test-gen-vscode",
+    "repository": {
+        "url": "https://github.com/js-test-gen/js-test-gen-vscode",
+        "type": "git"
+    },
     "categories": [
         "Other"
     ],
+    "icon": "media/jsTestGen.png",
     "activationEvents": [
         "onCommand:jsTestGen.generateTestTemplate",
         "onCommand:jsTestGen.generateTest"
