@@ -7,9 +7,7 @@
   "engines": {
     "vscode": "^1.20.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Other"],
   "activationEvents": [
     "onCommand:jsTestGen.generateTestTemplate",
     "onCommand:jsTestGen.generateTest"
@@ -43,38 +41,32 @@
         "jstestgen.testDirName": {
           "type": "string",
           "default": "",
-          "description": "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
+          "description":
+            "Set the directory name for where test will be saved to. If not set, the test will be saved to the current directory"
         },
         "jstestgen.testSufix": {
           "type": "string",
           "default": ".test",
-          "description": "Appends a string to your test file E.G: 'myfile-test.js"
+          "description":
+            "Appends a string to your test file E.G: 'myfile-test.js"
         },
         "jstestgen.typeSystem": {
           "type": "string",
-          "enum": [
-            "Flow",
-            "Typescript",
-            "None"
-          ],
+          "enum": ["Flow", "Typescript", "None"],
           "default": "None",
-          "description": "Specify if the code the tests are being generated for contain a type system I.E flow/tyescript"
+          "description":
+            "Specify if the code the tests are being generated for contain a type system I.E flow/tyescript"
         }
       }
     }
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "node ./node_modules/vscode/bin/test",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint",
-      "prettier-eslint --write",
-      "git add"
-    ]
+    "*.js": ["eslint", "prettier-eslint --write", "git add"]
   },
   "devDependencies": {
     "eslint": "^4.11.0",
