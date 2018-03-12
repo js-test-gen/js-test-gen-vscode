@@ -37,3 +37,8 @@ Or you can install from Settings view by searching for `js-test-gen-atom`.
 * `jsTestGen.generateTestTemplate` default `ctrl-alt-g` Generates a new test template file for all your named/default exports
 
 * `jsTestGen.generateTest` default: `ctrl-alt-s`, Generates a unit test template based on your selection
+
+## Release Notes
+
+### v0.5.0
+More information can be found at [js-tes-gen release](https://github.com/js-test-gen/js-test-gen/releases)
