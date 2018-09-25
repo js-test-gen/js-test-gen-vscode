@@ -20,9 +20,9 @@ Creates a unit test template and copies it to the keyboard, from your default/na
 
 You can install it from the CLI
 
-`ext install prettier-vscode`
+`ext install jsTestGen.js-test-gen-vscode`
 
-Or you can install from Settings view by searching for `js-test-gen-atom`.
+Or you can install from Settings view by searching for `js-test-gen-vscode`.
 
 ## Extension Settings
 
